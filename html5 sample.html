@@ -1,0 +1,139 @@
+<!-- HTML 5 sample-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Sample HTML5 Page</title>
+<style type="text/css">
+	a[href]:hover:after {
+content: " (" attr(href) ")";
+background-color: yellow;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+/// <reference path="_references.js" />
+var wsUri = 'ws://echo.websocket.org/';
+var webSocket;
+$(document).ready(function () {
+if (checkSupported()) {
+connect();
+$('#btnSend').click(doSend);
+}
+});
+function writeOutput(message) {
+var output = $("#divOutput");
+output.html(output.html() + '<br />' + message);
+}
+function checkSupported() {
+if (window.WebSocket) {
+writeOutput('WebSockets supported!');
+return true;
+}
+else {
+writeOutput('WebSockets NOT supported');
+$('#btnSend').attr('disabled', 'disabled');
+return false;
+}
+}
+function connect() {
+webSocket = new WebSocket(wsUri);
+webSocket.onopen = function (evt) { onOpen(evt) };
+webSocket.onclose = function (evt) { onClose(evt) };
+webSocket.onmessage = function (evt) { onMessage(evt) };
+webSocket.onerror = function (evt) { onError(evt) };
+}
+function doSend() {
+if (webSocket.readyState != webSocket.OPEN)
+{
+writeOutput("NOT OPEN: " + $('#txtMessage').val());
+return;
+}
+writeOutput("SENT: " + $('#txtMessage').val());
+webSocket.send($('#txtMessage').val());
+}
+function onOpen(evt) {
+writeOutput("CONNECTED");
+}
+function onClose(evt) {
+writeOutput("DISCONNECTED");
+}
+function onMessage(evt) {
+writeOutput('RESPONSE: ' + evt.data);
+}
+function onError(evt) {
+writeOutput('ERROR: ' + evt.data);
+}
+
+
+</script>
+<p>Hi Default page</p>
+<a href='http://google.com' >Link 1</a><br />
+<a>Link 2</a><br />
+<a href='http://microsoft.com' >Link 1</a><br />
+<!--<IFRAME SRC="http://youwatch.org/embed-senespgnj6ih.html" FRAMEBORDER=0 MARGINWIDTH=0 MARGINHEIGHT=0 SCROLLING=NO WIDTH=640 HEIGHT=360 allowfullscreen></IFRAME>-->
+<!--<iframe src="sampleForm.html"></iframe>
+<object width="100%" title="Loading form.." type="text/html" data="sampleForm.html"></object>-->
+<form method="get" action="sampleForm.html">
+	<input type="url" name="website" title="http://contoso.com or https://contoso.com" required="required" pattern="https?://.+" />
+	<button type="submit" name="Submit">Submit</button>
+</form>>
+<table>
+<thead>
+<tr>
+<th>Vehicle #</th>
+<th>Year</th>
+<th>Make</th>
+<th>Model</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>1</th>
+<td>1957</td>
+<td>Ford</td>
+<td>Thunderbird</td>
+<td>14,000</td>
+</tr>
+<tr>
+<th>2</th>
+<td>1958</td>
+<td>Chevrolet</td>
+<td>Impala</td>
+<td>3,000</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2012</td>
+<td>BMW</td>
+<td>Z4</td>
+<td>40,000</td>
+</tr>
+<tr>
+<th>4</th>
+<td>2003</td>	
+<td>Mazda</td>
+<td>Miata</td>
+<td>5,000</td>
+</tr>
+</tbody>
+<tfoot>
+<tr>
+<th>Total:</th>
+<th></th>
+<th></th>
+<th></th>
+<th>62,000</th>
+</tr>
+</tfoot>
+</table>
+
+<h2>WebSocket Test</h2>
+Enter Message: <input type="text" id="txtMessage" />
+<button type="button" id="btnSend">Send</button><br />
+<div id="divOutput"></div>
+</body>
+</html>
