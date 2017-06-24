@@ -1,4 +1,5 @@
 
+// Run this file from moduleFetch.js using node ModuleFetch.js 
 var http = require('http');
 var url = require('url');
 function start(){
